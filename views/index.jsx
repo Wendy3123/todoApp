@@ -1,14 +1,13 @@
 const React = require('react')
 
-
-function home(props) {
-    const { tasks, complete } = props
-    // const tasks = props.tasks
-    // const complete = props.complete
+function home({tasks,complete}) {
     return (
         <html>
+            <head>
+                <title>ToDoApp</title>
+            </head>
             <body>
-                <h2>A Simple ToDo List App</h2>
+                <h1>A Simple ToDo List App</h1>
                 <form action='/todos' method='POST'>
                     <input type='text' name='name'></input>
                     <button type='submit'>Add a New Task</button>
@@ -17,21 +16,23 @@ function home(props) {
                 <ul>
                     {
                         tasks.map((task,index) => {
-                            return <li key={task} >
-                                <input type="checkbox" />
-                                {task}
-                                <form action={'/todos/'+ index+'/?_method=PUT'} method='POST'>
-                                    <button>Complete</button>
-                                </form>
-                                </li>
+                            return <li style={{display:'flex'}} key={index}>
+                                        <input type="checkbox" value={index} />{task}
+                                        <form style={{margin:1.5}} action={`/todos/${index}?_method=PUT`} method='POST'>
+                                            <button type='submit'>&#10003;</button>
+                                        </form>
+                                        <form style={{margin:1.5}} action={`/todos/${index}?_method=DELETE`} method='POST'>
+                                            <button type='submit'>&#10060;</button>
+                                        </form>
+                                   </li>
                         })
                     }
                 </ul>
                 <h2>Completed Tasks</h2>
                 <ul>
                     {
-                        complete.map((task) => {
-                            return <li key={task}><input type="checkbox" />{task}</li>
+                        complete.map((task,index) => {
+                            return <li key={index}><input type="checkbox" defaultChecked />{task}</li>
                         })
                     }
                 </ul>
